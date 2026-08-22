@@ -1,0 +1,6 @@
+{
+  "name": "Structural Engineering AI Workstation",
+  "description": "Professional engineering workstation connecting ETABS, SAP2000, SAFE with calculation engines, geotechnical & pile design (Phan Vũ / TCVN 10304), standards RAG, model audit, Excel & calculation reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
