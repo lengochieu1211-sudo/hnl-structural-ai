@@ -15,3 +15,9 @@ Electron mở giao diện HNL và khởi chạy dịch vụ xử lý **nội b�
 Bản v1.3 có thể phát hiện process ETABS/SAP2000/SAFE trên Windows nhưng chưa coi đó là OAPI Connected. WRITE MODE bị khóa cho đến khi Native OAPI Bridge thật attach thành công.
 
 Đọc `AUDIT_HNL_v1.3.md` trước khi dùng cho công việc thiết kế thực tế.
+
+## v1.3.2 GitHub icon/build fix
+- App icon resources are now stored in `assets/` (tracked by Git) instead of ignored `build/`.
+- Electron/NSIS explicitly use `assets/hnl-app.ico`.
+- GitHub Actions verifies required resources before installing/building.
+- Output artifact: `HNL-Structural-AI-Windows-v1.3.2`.

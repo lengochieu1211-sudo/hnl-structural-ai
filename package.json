@@ -1,7 +1,7 @@
 {
   "name": "hnl-structural-ai-workstation",
   "private": true,
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "HNL Structural AI Workstation for ETABS, SAP2000 and SAFE",
   "author": "HNL",
   "type": "module",
@@ -46,13 +46,12 @@
     "asar": true,
     "directories": {
       "output": "release",
-      "buildResources": "build"
+      "buildResources": "assets"
     },
     "files": [
       "dist/**/*",
       "desktop/**/*",
-      "build/icon.ico",
-      "build/icon.png",
+      "assets/hnl-app.png",
       "package.json",
       "node_modules/**/*"
     ],
@@ -60,7 +59,8 @@
       "target": [
         "nsis",
         "portable"
-      ]
+      ],
+      "icon": "assets/hnl-app.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -70,9 +70,9 @@
       "shortcutName": "HNL Structural AI",
       "deleteAppDataOnUninstall": false,
       "artifactName": "HNL-Structural-AI-Setup-${version}-${arch}.${ext}",
-      "installerIcon": "build/icon.ico",
-      "uninstallerIcon": "build/icon.ico",
-      "installerHeaderIcon": "build/icon.ico"
+      "installerIcon": "assets/hnl-app.ico",
+      "uninstallerIcon": "assets/hnl-app.ico",
+      "installerHeaderIcon": "assets/hnl-app.ico"
     },
     "publish": null,
     "portable": {

@@ -1,13 +1,16 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-where powershell >nul 2>&1 || (echo Khong tim thay PowerShell & pause & exit /b 1)
+echo ============================================
+echo   HNL Structural AI - Build Windows EXE
+echo ============================================
 powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0BUILD_WINDOWS_EXE.ps1"
 if errorlevel 1 (
   echo.
-  echo BUILD THAT BAI. Xem loi phia tren.
+  echo BUILD FAILED.
   pause
   exit /b 1
 )
 echo.
+echo BUILD SUCCESS. Check the release folder.
 pause

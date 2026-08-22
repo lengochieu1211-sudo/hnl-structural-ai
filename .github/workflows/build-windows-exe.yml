@@ -20,6 +20,20 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v5
 
+      - name: Verify required desktop resources
+        shell: pwsh
+        run: |
+          $required = @(
+            "assets/hnl-app.ico",
+            "assets/hnl-app.png",
+            "desktop/main.cjs",
+            "package.json"
+          )
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) { throw "Missing required build resource: $file" }
+            Write-Host "OK: $file"
+          }
+
       - name: Setup Node.js 22
         uses: actions/setup-node@v5
         with:
@@ -47,8 +61,8 @@ jobs:
         run: |
           $setup = Get-ChildItem release -Filter "HNL-Structural-AI-Setup-*.exe" -ErrorAction SilentlyContinue
           $portable = Get-ChildItem release -Filter "HNL-Structural-AI-Portable-*.exe" -ErrorAction SilentlyContinue
-          if (-not $setup) { throw "Thiếu file Setup EXE" }
-          if (-not $portable) { throw "Thiếu file Portable EXE" }
+          if (-not $setup) { throw "Missing Setup EXE" }
+          if (-not $portable) { throw "Missing Portable EXE" }
           Write-Host "=== SETUP ==="
           $setup | Format-Table Name, Length, LastWriteTime
           Write-Host "=== PORTABLE ==="
@@ -57,7 +71,7 @@ jobs:
       - name: Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
-          name: HNL-Structural-AI-Windows-v1.3.1
+          name: HNL-Structural-AI-Windows-v1.3.2
           path: |
             release/HNL-Structural-AI-Setup-*.exe
             release/HNL-Structural-AI-Portable-*.exe

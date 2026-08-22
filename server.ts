@@ -49,7 +49,7 @@ async function startServer() {
     res.json({
       status: 'ok',
       service: 'Structural Engineering AI Workstation',
-      version: '1.3.1',
+      version: '1.3.2',
       timestamp: new Date().toISOString(),
       hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
     });
@@ -210,7 +210,7 @@ Please structure your response with:
 
   // Phan Vũ catalog sync guard. Không tuyên bố verified nếu chưa có fetcher thật.
   app.get('/api/phanvu/sync', (req, res) => {
-    res.status(501).json({ status: 'NOT_CONFIGURED', lastChecked: new Date().toISOString(), source: 'phanvu.vn', verified: false, message: 'Live Phan Vũ catalog sync chưa được triển khai trong bản 1.3.1. Dữ liệu local là REFERENCE ONLY cho đến khi đối chiếu catalog chính thức.' });
+    res.status(501).json({ status: 'NOT_CONFIGURED', lastChecked: new Date().toISOString(), source: 'phanvu.vn', verified: false, message: 'Live Phan Vũ catalog sync chưa được triển khai trong bản 1.3.2. Dữ liệu local là REFERENCE ONLY cho đến khi đối chiếu catalog chính thức.' });
   });
 
   // Vite middleware for development
