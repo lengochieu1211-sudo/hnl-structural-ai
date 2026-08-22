@@ -118,7 +118,7 @@ export default function App() {
       <aside className={`hidden md:flex ${sidebarCollapsed ? 'w-[68px]' : 'w-[278px]'} bg-slate-950 text-white border-r border-slate-800 flex-col shrink-0 transition-all duration-200`}>
         <div className="h-[72px] px-3 border-b border-slate-800 flex items-center gap-3">
           <img src="/hnl-logo.png" alt="HNL" className="w-10 h-10 rounded-xl object-cover bg-white shadow" />
-          {!sidebarCollapsed && <div className="min-w-0"><div className="font-black tracking-tight">HNL STRUCTURAL AI</div><div className="text-[10px] text-slate-400">Engineering Workstation • v1.2 Desktop</div></div>}
+          {!sidebarCollapsed && <div className="min-w-0"><div className="font-black tracking-tight">HNL STRUCTURAL AI</div><div className="text-[10px] text-slate-400">Engineering Workstation • v1.3 Desktop</div></div>}
         </div>
         <div className="flex-1 min-h-0">{renderNav()}</div>
         <button onClick={() => setSidebarCollapsed(v => !v)} className="h-11 border-t border-slate-800 text-slate-400 hover:text-white flex items-center justify-center gap-2">
@@ -132,7 +132,7 @@ export default function App() {
         <header className="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-3 sm:px-5 shrink-0 shadow-xs">
           <div className="flex items-center gap-3 min-w-0">
             <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-lg hover:bg-slate-100"><Menu className="w-5 h-5"/></button>
-            <div className="min-w-0"><div className="flex items-center gap-2"><h1 className="font-bold text-sm sm:text-base truncate">{current.label}</h1><span className="hidden sm:inline text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">HNL v1.2.0</span></div><p className="text-[11px] text-slate-500 truncate">{project.name} • {project.location} • {project.currentStandardProfile.name}</p></div>
+            <div className="min-w-0"><div className="flex items-center gap-2"><h1 className="font-bold text-sm sm:text-base truncate">{current.label}</h1><span className="hidden sm:inline text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">HNL v1.3.0</span></div><p className="text-[11px] text-slate-500 truncate">{project.name} • {project.location} • {project.currentStandardProfile.name}</p></div>
           </div>
           <div className="hidden lg:flex items-center gap-1.5 text-[10px]">
             <button onClick={newProject} className="border border-slate-200 rounded-lg px-2.5 py-1.5 hover:bg-slate-50 flex items-center gap-1"><FilePlus2 className="w-3.5 h-3.5"/>Mới</button>

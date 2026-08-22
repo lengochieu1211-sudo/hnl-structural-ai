@@ -1,4 +1,4 @@
-# HNL Structural AI Workstation v1.2
+# HNL Structural AI Workstation v1.3
 
 Ứng dụng desktop-first cho Windows 10/11, hướng tới workflow ETABS + SAP2000 + SAFE + Calculation Engine + Excel + AI/Knowledge.
 
@@ -12,6 +12,6 @@
 Electron mở giao diện HNL và khởi chạy dịch vụ xử lý **nội bộ trên 127.0.0.1**. Đây không phải hosting/server Internet và không mở backend ra mạng LAN.
 
 ## An toàn CSI
-Bản v1.2 có thể phát hiện process ETABS/SAP2000/SAFE trên Windows nhưng chưa coi đó là OAPI Connected. WRITE MODE bị khóa cho đến khi Native OAPI Bridge thật attach thành công.
+Bản v1.3 có thể phát hiện process ETABS/SAP2000/SAFE trên Windows nhưng chưa coi đó là OAPI Connected. WRITE MODE bị khóa cho đến khi Native OAPI Bridge thật attach thành công.
 
-Đọc `AUDIT_HNL_v1.2.md` trước khi dùng cho công việc thiết kế thực tế.
+Đọc `AUDIT_HNL_v1.3.md` trước khi dùng cho công việc thiết kế thực tế.
