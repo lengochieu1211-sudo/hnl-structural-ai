@@ -1,6 +1,7 @@
 const { app, BrowserWindow, shell, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { pathToFileURL } = require('url');
 
 const PORT = 17841;
 let mainWindow;
@@ -11,10 +12,11 @@ app.on('second-instance', () => {
   if (mainWindow) { if (mainWindow.isMinimized()) mainWindow.restore(); mainWindow.focus(); }
 });
 
-function startLocalService() {
+async function startLocalService() {
   process.env.NODE_ENV = 'production';
   process.env.PORT = String(PORT);
-  require(path.join(__dirname, '..', 'dist', 'server.cjs'));
+  const serverPath = path.join(__dirname, '..', 'dist', 'server.mjs');
+  await import(pathToFileURL(serverPath).href);
 }
 
 async function waitForService(url, timeoutMs = 15000) {
@@ -81,6 +83,16 @@ async function createWindow() {
   mainWindow.once('ready-to-show', () => mainWindow.show());
 }
 
-app.whenReady().then(async () => { registerDesktopIpc(); startLocalService(); await createWindow(); });
+app.whenReady().then(async () => {
+  registerDesktopIpc();
+  try {
+    await startLocalService();
+    await createWindow();
+  } catch (error) {
+    console.error('HNL startup error:', error);
+    dialog.showErrorBox('HNL Structural AI', `Không khởi động được ứng dụng.\n\n${error?.message || error}`);
+    app.quit();
+  }
+});
 app.on('window-all-closed', () => app.quit());
 app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });

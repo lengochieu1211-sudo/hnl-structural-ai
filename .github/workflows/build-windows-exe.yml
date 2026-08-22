@@ -13,18 +13,17 @@ concurrency:
 jobs:
   windows:
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
+    permissions:
+      contents: read
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-        continue-on-error: true
 
       - name: Install dependencies
         shell: pwsh
@@ -43,19 +42,26 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: npm run dist:win
 
-      - name: Verify EXE output
+      - name: Verify Windows outputs
         shell: pwsh
         run: |
-          $files = Get-ChildItem release -Filter *.exe -ErrorAction SilentlyContinue
-          if (-not $files) { throw "Không tìm thấy file EXE trong release/" }
-          $files | Format-Table Name, Length, LastWriteTime
+          $setup = Get-ChildItem release -Filter "HNL-Structural-AI-Setup-*.exe" -ErrorAction SilentlyContinue
+          $portable = Get-ChildItem release -Filter "HNL-Structural-AI-Portable-*.exe" -ErrorAction SilentlyContinue
+          if (-not $setup) { throw "Thiếu file Setup EXE" }
+          if (-not $portable) { throw "Thiếu file Portable EXE" }
+          Write-Host "=== SETUP ==="
+          $setup | Format-Table Name, Length, LastWriteTime
+          Write-Host "=== PORTABLE ==="
+          $portable | Format-Table Name, Length, LastWriteTime
 
       - name: Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
-          name: HNL-Structural-AI-Windows-v1.3.0
+          name: HNL-Structural-AI-Windows-v1.3.1
           path: |
-            release/*.exe
+            release/HNL-Structural-AI-Setup-*.exe
+            release/HNL-Structural-AI-Portable-*.exe
+            release/*.blockmap
             release/*.yml
           if-no-files-found: error
           retention-days: 30

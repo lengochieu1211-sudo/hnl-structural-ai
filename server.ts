@@ -12,6 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const execFileAsync = promisify(execFile);
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 
 async function startServer() {
   const app = express();
@@ -48,7 +49,7 @@ async function startServer() {
     res.json({
       status: 'ok',
       service: 'Structural Engineering AI Workstation',
-      version: '1.2.0',
+      version: '1.3.1',
       timestamp: new Date().toISOString(),
       hasGeminiKey: Boolean(process.env.GEMINI_API_KEY),
     });
@@ -111,7 +112,7 @@ You MUST NEVER hallucinate numbers or formulas. Ground all responses on engineer
 Current Project Context: ${JSON.stringify(context || {})}`;
 
       const response = await client.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: GEMINI_MODEL,
         contents: prompt,
         config: {
           systemInstruction,
@@ -147,7 +148,7 @@ All engineering statements must be rigorously verifiable, cite exact clauses/equ
       };
 
       const response = await client.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: GEMINI_MODEL,
         contents: prompt,
         config,
       });
@@ -170,7 +171,8 @@ All engineering statements must be rigorously verifiable, cite exact clauses/equ
 
       const prompt = `Perform rigorous structural engineering research on: "${query}".
 Domain scope: ${domain || 'General Structural & Geotechnical Engineering'}.
-Context sources available: ${JSON.stringify(contextSources || ['TCVN', 'CSI Knowledge Base', 'Phan Vu Group 2026 Catalog', 'ACI 318-19'])}.
+Context sources available: ${JSON.stringify(contextSources || [])}.
+Only cite a source when its exact document metadata or retrieved text is actually present in the supplied context. Do not invent clause numbers, editions, URLs, or catalog data.
 
 Please structure your response with:
 1. Executive Technical Summary
@@ -185,7 +187,7 @@ Please structure your response with:
       }
 
       const response = await client.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: GEMINI_MODEL,
         contents: prompt,
         config: {
           systemInstruction:
@@ -196,11 +198,9 @@ Please structure your response with:
       return res.json({
         summary: `AI Research Analysis for "${query}"`,
         text: response.text,
-        citations: [
-          { title: 'TCVN / CSI Official Reference Grounding', source: 'Engineered Standards DB' },
-          { title: 'Phan Vũ Group Technical Catalog', source: 'Phan Vũ Official 2026 Edition' },
-          { title: 'CSI Knowledge Base & API Documentation', source: 'Computers & Structures Inc.' },
-        ],
+        citations: [],
+        sourceStatus: 'UNVERIFIED_MODEL_OUTPUT',
+        note: 'Chỉ hiển thị citation khi Knowledge/RAG layer cung cấp metadata nguồn thực tế.'
       });
     } catch (error: any) {
       console.error('Research error:', error);
@@ -210,7 +210,7 @@ Please structure your response with:
 
   // Phan Vũ catalog sync guard. Không tuyên bố verified nếu chưa có fetcher thật.
   app.get('/api/phanvu/sync', (req, res) => {
-    res.status(501).json({ status: 'NOT_CONFIGURED', lastChecked: new Date().toISOString(), source: 'phanvu.vn', verified: false, message: 'Live Phan Vũ catalog sync chưa được triển khai trong bản 1.1. Dữ liệu local là REFERENCE ONLY cho đến khi đối chiếu catalog chính thức.' });
+    res.status(501).json({ status: 'NOT_CONFIGURED', lastChecked: new Date().toISOString(), source: 'phanvu.vn', verified: false, message: 'Live Phan Vũ catalog sync chưa được triển khai trong bản 1.3.1. Dữ liệu local là REFERENCE ONLY cho đến khi đối chiếu catalog chính thức.' });
   });
 
   // Vite middleware for development
